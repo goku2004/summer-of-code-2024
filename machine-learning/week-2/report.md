@@ -1,0 +1,6 @@
+Initially I tried to use ARIMA model however it was giving the same value for all the predictions and its results were inconclusive so I dropped it. 
+The main problem that I faced with time series forecasting was that how to include features other than datetime and predict results based only on the previous values.
+If I used linear regression with all these features of State,City and Category I had to provide those features at the time of forecasting too which doesnt serve the purpose.
+If I used only lags as features the predictions were not that accurate which shows from my prophet and LSTM model.
+My LSTM model did not improve its loss on any epoch during fitting so I dropped that model as well. 
+I tried to use streamlit on google collab but I had trouble with ngrok after which I used local tunnel but still i had the issue of training models which was based on the input of user. The model will be trained only after taking the input of user and also there was the problem of lags so I couldnt forecast 2 days in the future without the first one. 
