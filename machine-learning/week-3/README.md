@@ -1,22 +1,35 @@
 
-# Week 3: Customer Segmentation and Product Recommendation Engine
+# Customer Segmentation and Product Recommendation Engine
+
+## Dataset
+
+This project uses the [Online Retail Dataset](https://archive.ics.uci.edu/ml/datasets/Online+Retail) from the UCI Machine Learning Repository.
+
+- **Source**: [UCI Machine Learning Repository - Online Retail Dataset](https://archive.ics.uci.edu/ml/datasets/Online+Retail)
+- **License**: Creative Commons Attribution 4.0 International (CC BY 4.0)
+- **Attribution**: If you use this dataset in your own work, please cite the UCI Machine Learning Repository and the original data contributors.
+
+> "Online Retail Dataset." UCI Machine Learning Repository, https://archive.ics.uci.edu/ml/datasets/Online+Retail.
+
+## Installation
+1. Clone this repository.
+2. Install the dependencies:
+   ```bash
+   pip install -r requirements.txt
 
 ## Table of Contents
 1. [Introduction](#1-introduction)
 2. [Why Customer Segmentation and Product Recommendation?](#2-why-customer-segmentation-and-product-recommendation)
 3. [Workflow Overview](#3-workflow-overview)
 4. Detailed Task Breakdown
-   - [4.1. Implement Unsupervised Learning Techniques for Customer Segmentation](#41-implement-unsupervised-learning-techniques-for-customer-segmentation)
-   - [4.2. Create a Content-Based Recommendation System](#42-create-a-content-based-recommendation-system)
-   - [4.3. Optional: Use Optuna for Hyperparameter Optimization](#43-optional-use-optuna-for-hyperparameter-optimization)
-   - [4.4. Optional: Develop a Real-Time Recommendation API](#44-optional-develop-a-real-time-recommendation-api)
-5. [Deliverables](#5-deliverables)
-6. [Submission Guidelines](#6-submission-guidelines)
-7. [Resources](#7-resources)
+   - [4.1. Find a customer transaction dataset](#41-find-a-customer-transaction-dataset)
+   - [4.2. Engineer relevant features](#42-engineer-relevant-features-to-make-clusters-on)
+   - [4.3. Implement Unsupervised Learning Techniques](#43-implement-unsupervised-learning-techniques)
+   - [4.4. Create recommendation based system](#44-create-recommendation-system-based-on-clustering)
 
 ## 1. Introduction
 
-Welcome to Week 3 of the AI/ML Development Track. This week, you'll work on customer segmentation using unsupervised learning techniques and develop a content-based recommendation system for products. This will involve clustering methods and similarity measures to recommend products effectively.
+This is my personal project on unsupervised learning prinicples and customer recommendation techniques.
 
 ## 2. Why Customer Segmentation and Product Recommendation?
 
@@ -25,63 +38,69 @@ Customer segmentation helps in identifying distinct groups within a customer bas
 ## 3. Workflow Overview
 
 1. Find a customer transaction dataset
-2. Implement unsupervised learning techniques for customer segmentation:
+2. Apply feature engineering to produce relevant features.
+3. Implement unsupervised learning techniques for customer segmentation:
    - K-means clustering using Scikit-learn
    - DBSCAN for density-based clustering
-3. [Optional] Create a content-based recommendation system:
-   - TF-IDF vectorization for product descriptions (Scikit-learn)
-   - Cosine similarity for item-item similarity
+4. Make a recommendation system based on clustering
 
 ## 4. Detailed Task Breakdown
 
 ### 4.1. Find a customer transaction dataset
 
-- Here are some good customer transaction datasets to use for clustering:
+- I have used the following transaction dataset to apply my model on:
   - [Ecommerce Data](https://www.kaggle.com/datasets/carrie1/ecommerce-data/data)
-  - [Customer Personality Analysis](https://www.kaggle.com/datasets/imakash3011/customer-personality-analysis/data)
 
-### 4.2. Implement Unsupervised Learning Techniques for Customer Segmentation
+### 4.2. Engineer relevant features to make clusters on.
+- I engineered the following features for clustering the customers based on their purchasing behaviour:
+   - Days Since Last Purchase
+   - Total Transactions
+   - Average Transaction
+   - Days Since Last Purchase
+   - Average Unit Per Transaction
+   - Frequency of Transaction
+   - No. of different products
+   - Total Cancellations
+   - Favorite Day of Week and Hour
+   - Country
 
-- Here are some good Kaggle notebook demos for the above 2 datasets to start with:
-  - [Fabien Daniel - Customer Segmentation](https://www.kaggle.com/code/fabiendaniel/customer-segmentation)
-  - [Karnika Kapoor - Customer Segmentation and Clustering](https://www.kaggle.com/code/karnikakapoor/customer-segmentation-clustering)
+### 4.3. Implement Unsupervised Learning Techniques for Customer Segmentation
 
 - **K-means Clustering**
   - Use Scikit-learn to implement K-means clustering.
   - Determine the optimal number of clusters using the elbow method or silhouette score.
-  - [Guide to K-means Clustering](https://realpython.com/k-means-clustering-python/)
-  - [K-means Clustering Documentation](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html)
-  
+ 
+  - The optimal number of clusters obtained for the above dataset were 3. The three clusters were as follows:
+  - ### CLuster 0
+       - These are minority customers of our store.
+       - Infrequent customers evident from 'DaysSinceLastPurchase' and 'Frequency' means even when they did buy from the store they were irregular buyers
+       - The total number of transactions are also less for each customer however whenever they did come their spend was high and also unit price was higher means           the products they purchased were expensive.
+       - The domain of products they purchased was limited and werent open to new items. However their cancellation rate is lower meaning they trust our products            but are occasional high spenders and prefer particular range of products from our store.
+       - They prefer to buy on weekdays specifically in the middle of week. They prefer afternoon hours for shopping.
+       - The majority of them are from Germany.
+   - ### CLuster 1
+        - They are frequent buyers with high spend on each transaction and high unit price means they are regular buyers of high value items.
+        - Also the domain of products purchased by them is quite varied. However their cancellation rate is quite high implying less satisfaction of products among           these people.
+        - They buy on all days but prefer middle of week or weekends. Afternoon buyers.
+        - These are all from UK.
+        - As they are frequent big spenders it is important to work on cancellation rate for these customers.
+   - ### Cluster 2
+        - These are the majority customers of our store.
+        - Their frequency varies from customer to customer and does not show any particular behaviour.
+        - They are not high spenders and they do not have many transactions in our store. The average unit price of items is also less implying cheap products.
+        - Their cancellation frequency is very low hence either they are satisfied by our products or the items are consummables which are cheap and cannot usually            be cancelled.
+        - The items do not have wide variety.
+        - They also prefer afternoons and are likely to buy on all days.
+        - Mostly from UK.
+
+    
 - **DBSCAN**
   - Apply DBSCAN for density-based clustering.
   - Adjust parameters like epsilon and minimum samples to achieve meaningful clusters.
-  - [Guide to DBSCAN Clustering (At the bottom)](https://nzlul.medium.com/clustering-method-using-k-means-hierarchical-and-dbscan-using-python-5ca5721bbfc3)
-  - [DBSCAN Documentation](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html)
+ 
+  - I was unable to implement this model on these dataset and there were no proper epsilon values for which any meaningful clusters could be made.
 
-### 4.3. Optional: Create a Content-Based Recommendation System
+### 4.4. Create a recommendation system based on clustering
+- Recommend out of the top 10 products in the cluster of a particular customer any 3 products which have not yet been bought by the customer. 
 
-- Here are some good customer transaction datasets to use for clustering:
-- [Customer Recommendation (Step 12) (This is a basic recommendation system based on clusters)](https://www.kaggle.com/code/farzadnekouei/customer-segmentation-recommendation-system#Step-12-%7C-Recommendation-System)
-- [Recommendations using Association Rules](https://www.kaggle.com/code/pierrelouisdanieau/recommender-system-associations-rules)
 
-Here are some ideas you could use to make even more personalized suggestions to users based on their previous purchases:
-
-- **TF-IDF Vectorization**
-  - Use TF-IDF to convert product descriptions into numerical vectors.
-  - [TF-IDF Vectorizer Documentation](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html)
-
-- **Cosine Similarity**
-  - Calculate cosine similarity between products to find similar items.
-  - [Cosine Similarity Documentation](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html)
-
-## 5. Deliverables
-
-- Jupyter notebook with the implementation of customer segmentation and product recommendation pipeline.
-- A concise Markdown report discussing your approach, challenges, and results.
-- [Optional] Python script for the real-time recommendation API.
-
-## 6. Submission Guidelines
-
-- Submit your Jupyter notebook as a `.ipynb` file.
-- Submit your report as a `.md` file.
-- [Optional] Submit your API script as a `.py` file.
